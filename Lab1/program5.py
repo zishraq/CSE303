@@ -1,4 +1,4 @@
-def prime_find_2019_2_60_022(num : int) -> bool:
+def prime_find_2019_2_60_022(num: int) -> bool:
     if num > 1:
         for i in range(2, num):
             if num % i == 0:
