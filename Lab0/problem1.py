@@ -1,6 +1,6 @@
-a = int(input('First side, a = '))
-b = int(input('Second side, b = '))
-c = int(input('Third side, c = '))
+a = float(input('First side, a = '))
+b = float(input('Second side, b = '))
+c = float(input('Third side, c = '))
 
 
 if a + b > c and c + b > a and a + c > b:
