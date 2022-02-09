@@ -24,22 +24,22 @@ def get_grade(marks: float):
         return 'A'
 
 
-course1_credit = float(input('Enter credits of course A: '))
-course2_credit = float(input('Enter credits of course B: '))
-course3_credit = float(input('Enter credits of course C: '))
+courseA_credit = float(input('Enter credits of course A: '))
+courseB_credit = float(input('Enter credits of course B: '))
+courseC_credit = float(input('Enter credits of course C: '))
 
-course1_marks = float(input('Enter marks of course A: '))
-course2_marks = float(input('Enter marks of course B: '))
-course3_marks = float(input('Enter marks of course C: '))
+courseA_marks = float(input('Enter marks of course A: '))
+courseB_marks = float(input('Enter marks of course B: '))
+courseC_marks = float(input('Enter marks of course C: '))
 
 
 total_grade_points = 0
 
-total_grade_points += grade_points[get_grade(course1_marks)] * course1_credit
-total_grade_points += grade_points[get_grade(course2_marks)] * course2_credit
-total_grade_points += grade_points[get_grade(course3_marks)] * course3_credit
+total_grade_points += grade_points[get_grade(courseA_marks)] * courseA_credit
+total_grade_points += grade_points[get_grade(courseB_marks)] * courseB_credit
+total_grade_points += grade_points[get_grade(courseC_marks)] * courseC_credit
 
-total_credits = course1_credit + course2_credit + course3_credit
+total_credits = courseA_credit + courseB_credit + courseC_credit
 
 term_gpa = total_grade_points / total_credits
 
