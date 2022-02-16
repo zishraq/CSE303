@@ -1,8 +1,5 @@
-from math import pow
-
-
 def compound_interest_2019_2_60_022(P: float, r: float, t: float) -> float:
-    return P * (pow((1 + (r/100)), t))
+    return P * ((1 + (r/100)) ** t)
 
 
 P = float(input('Initial principal balance, P = '))
