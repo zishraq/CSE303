@@ -2,11 +2,8 @@ def get_nth_fibonacci(n):
     num1 = 0
     num2 = 1
 
-    if n == 0:
-        return 0
-
-    elif n == 1:
-        return num2
+    if n == 0 or n == 1:
+        return n
 
     else:
         for i in range(1, n):
