@@ -2,7 +2,7 @@ from math import pi
 
 
 def get_circle_area(radius: float):
-    return pi * (radius ** radius)
+    return pi * (radius ** 2)
 
 
 def get_circle_perimeter(radius: float):
