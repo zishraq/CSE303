@@ -52,10 +52,8 @@ frequency_distribution_table = {
     'midpoint (x)': [],
     'fi * xi': [],
     'fi * (xi - x-bar)^2': [],
-    # 'CFi': [],
+    'CFi': [],
 }
-
-# total_first_innings_score_by_ground =
 
 summation_fi_xi = 0
 
@@ -80,9 +78,28 @@ for i in range(lowest_limit, highest_limit + 1, 10):
     summation_fi_xi += fi_xi
 
 
-mean = summation_fi_xi/n
+x_mean = summation_fi_xi/n
+
+j = 0
+cumulative_frequency = 0
+summation_fi_xi_xbar_squared = 0
+
+for i in range(lowest_limit, highest_limit + 1, 10):
+    frequency = frequency_distribution_table['frequency (f)'][j]
+    x = frequency_distribution_table['midpoint (x)'][j]
+    cumulative_frequency += frequency
+    fi_xi_xbar_squared = frequency * ((x - x_mean)**2)
+    summation_fi_xi_xbar_squared += fi_xi_xbar_squared
+    frequency_distribution_table['fi * (xi - x-bar)^2'].append(fi_xi_xbar_squared)
+    frequency_distribution_table['CFi'].append(cumulative_frequency)
+
+    j += 1
+
+
+variance = summation_fi_xi_xbar_squared / (n - 1)
 
 print(tabulate(frequency_distribution_table, headers='keys', tablefmt='grid'))
-
 print('Σ (fi * xi) =', summation_fi_xi)
-print('mean =', mean)
+print('mean =', x_mean)
+print('Σ (fi * (xi - x-bar)^2) =', summation_fi_xi_xbar_squared)
+print('variance =', variance)
