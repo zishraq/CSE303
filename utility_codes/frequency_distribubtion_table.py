@@ -80,7 +80,7 @@ def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=Tru
     print('mean =', x_mean)
     print('Σ (fi * (xi - x-bar)^2) =', summation_fi_xi_xbar_squared)
     print('variance =', variance)
-    print('-------------------------------------------------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------------------------------------')
     print()
 
 

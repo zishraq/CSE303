@@ -53,10 +53,16 @@ for c, i in enumerate(matches):
                 'ground': [],
             }
 
-            dataset_by_grounds[matches[c]['ground']['smallName']] = data_insertion_by_checking_innings(matches, dataset_by_grounds[matches[c]['ground']['smallName']])
+            dataset_by_grounds[matches[c]['ground']['smallName']] = data_insertion_by_checking_innings(
+                matches,
+                dataset_by_grounds[matches[c]['ground']['smallName']]
+            )
 
         else:
-            dataset_by_grounds[matches[c]['ground']['smallName']] = data_insertion_by_checking_innings(matches, dataset_by_grounds[matches[c]['ground']['smallName']])
+            dataset_by_grounds[matches[c]['ground']['smallName']] = data_insertion_by_checking_innings(
+                matches,
+                dataset_by_grounds[matches[c]['ground']['smallName']]
+            )
 
         whole_dataset = data_insertion_by_checking_innings(matches, whole_dataset)
 
