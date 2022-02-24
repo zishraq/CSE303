@@ -40,13 +40,13 @@ def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=Tru
 
     for i in range(lowest_limit, highest_limit + 1, interval):
         lower_limit = i
-        upper_limit = i + interval - 1 if is_exclusive else i + interval
+        upper_limit = i + interval - 1
 
         print(highest_limit + 1)
         print([lower_limit, upper_limit])
 
-        # frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit}')
-        frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit])
+        # frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit if is_exclusive else upper_limit - 1}')
+        frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit - 1])
 
         frequency_count = 0
 
