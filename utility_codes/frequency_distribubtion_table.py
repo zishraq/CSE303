@@ -31,8 +31,9 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         'frequency (f)': [],
         'midpoint (x)': [],
         'fi * xi': [],
-        'fi * (xi - x-bar)^2': [],
+        'fi * (xi - x̄)^2': [],
         'Cumulative Frequency (CFi)': [],
+        'is_median_class': []
     }
 
     summation_fi_xi = 0
@@ -69,8 +70,9 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         cumulative_frequency += frequency
         fi_xi_xbar_squared = frequency * ((x - x_mean) ** 2)
         summation_fi_xi_xbar_squared += fi_xi_xbar_squared
-        frequency_distribution_table['fi * (xi - x-bar)^2'].append(fi_xi_xbar_squared)
+        frequency_distribution_table['fi * (xi - x̄)^2'].append(fi_xi_xbar_squared)
         frequency_distribution_table['Cumulative Frequency (CFi)'].append(cumulative_frequency)
+        frequency_distribution_table['is_median_class'].append(False)
 
     # variance calculation and standard deviation
     variance = summation_fi_xi_xbar_squared / (n - 1)
@@ -84,6 +86,8 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         if midvalue <= frequency_distribution_table['Cumulative Frequency (CFi)'][cfi]:
             median_class_index = cfi
             break
+
+    frequency_distribution_table['is_median_class'][median_class_index] = True
 
     L = frequency_distribution_table['Class Interval'][median_class_index][0]
     B = frequency_distribution_table['Cumulative Frequency (CFi)'][median_class_index - 1]
@@ -110,7 +114,7 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
     print()
 
     print('Variance and standard deviation: ')
-    print('Σ (fi * (xi - x-bar)^2) =', summation_fi_xi_xbar_squared)
+    print('Σ (fi * (xi - x̄)^2) =', summation_fi_xi_xbar_squared)
     print('variance =', variance)
     print('standard deviation =', standard_deviation)
     print('-----------------------------------------------------------------------------------------------------------')

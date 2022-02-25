@@ -13,7 +13,11 @@ class CentralTendency:
 
         return self.dataset
 
+    def get_size_of_dataset(self):
+        return self.n
+
     def get_mean(self):
+        print('Σ xi =', sum(self.dataset))
         return sum(self.dataset) / self.n
 
     def get_trimmed_mean(self, p):
@@ -30,6 +34,7 @@ class CentralTendency:
             index2 = self.n // 2
             index1 = index2 - 1
 
+            print(f'{self.dataset[index1]}, {self.dataset[index2]}')
             return (self.dataset[index1] + self.dataset[index2]) / 2
 
         index = self.n // 2
@@ -86,6 +91,7 @@ class CentralTendency:
         for i in range(len(self.dataset)):
             summation_xi_minus_x_bar_squared += ((self.dataset[i] - mean) ** 2)
 
+        print('Σ (fi * (xi - x̄)^2) =', summation_xi_minus_x_bar_squared)
         return summation_xi_minus_x_bar_squared / (self.n - 1)
 
     def get_standard_deviation(self):
