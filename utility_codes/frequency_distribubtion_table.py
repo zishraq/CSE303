@@ -14,12 +14,12 @@ def get_highest_limit(min_data, max_data, interval):
     }
 
 
-def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=True):
+def generate_frequency_distribution_table(dataset: list, interval_range: int = 10, is_exclusive: bool = True):
     n = len(dataset)
     lowest_data = min(dataset)
     highest_data = max(dataset)
 
-    get_limits = get_highest_limit(lowest_data, highest_data, interval)
+    get_limits = get_highest_limit(lowest_data, highest_data, interval_range)
 
     lowest_limit = get_limits['lower_limit']
     highest_limit = get_limits['upper_limit']
@@ -35,12 +35,12 @@ def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=Tru
 
     summation_fi_xi = 0
 
-    for i in range(lowest_limit, highest_limit + 1, interval):
-        lower_limit = i
-        upper_limit = i + interval - 1 if is_exclusive else i + interval
+    for interval in range(lowest_limit, highest_limit, interval_range):
+        lower_limit = interval
+        upper_limit = interval + interval_range - 1
 
-        # frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit}')
-        frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit])
+        frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit if is_exclusive else upper_limit + 1}')
+        # frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit + 1])
 
         frequency_count = 0
 
@@ -49,7 +49,7 @@ def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=Tru
                 frequency_count += 1
 
         frequency_distribution_table['frequency (f)'].append(frequency_count)
-        midpoint = (lower_limit + upper_limit)/2
+        midpoint = (lower_limit + upper_limit) / 2
         frequency_distribution_table['midpoint (x)'].append(midpoint)
 
         fi_xi = frequency_count * midpoint
@@ -58,20 +58,17 @@ def generate_frequency_distribution_table(dataset, interval=10, is_exclusive=Tru
 
     x_mean = summation_fi_xi / n
 
-    j = 0
     cumulative_frequency = 0
     summation_fi_xi_xbar_squared = 0
 
-    for i in range(lowest_limit, highest_limit + 1, interval):
-        frequency = frequency_distribution_table['frequency (f)'][j]
-        x = frequency_distribution_table['midpoint (x)'][j]
+    for interval in range(len(frequency_distribution_table['Class Interval'])):
+        frequency = frequency_distribution_table['frequency (f)'][interval]
+        x = frequency_distribution_table['midpoint (x)'][interval]
         cumulative_frequency += frequency
         fi_xi_xbar_squared = frequency * ((x - x_mean) ** 2)
         summation_fi_xi_xbar_squared += fi_xi_xbar_squared
         frequency_distribution_table['fi * (xi - x-bar)^2'].append(fi_xi_xbar_squared)
         frequency_distribution_table['CFi'].append(cumulative_frequency)
-
-        j += 1
 
     variance = summation_fi_xi_xbar_squared / (n - 1)
 

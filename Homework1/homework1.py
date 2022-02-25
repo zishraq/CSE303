@@ -63,15 +63,17 @@ for c, i in enumerate(matches):
                 dataset_by_grounds[matches[c]['ground']['smallName']]
             )
 
-        whole_dataset = data_insertion_by_checking_innings(matches, whole_dataset)
+        whole_dataset = data_insertion_by_checking_innings(
+            matches,
+            whole_dataset
+        )
 
 
 if __name__ == '__main__':
     print(tabulate(whole_dataset, headers='keys', tablefmt='grid'))
 
-    for ground in dataset_by_grounds:
-        generate_frequency_distribution_table(
-            dataset=dataset_by_grounds[ground]['first_innings_scores'],
-            interval=10,
-            is_exclusive=True
-        )
+    generate_frequency_distribution_table(
+        dataset=whole_dataset['first_innings_scores'],
+        interval_range=10,
+        is_exclusive=False
+    )
