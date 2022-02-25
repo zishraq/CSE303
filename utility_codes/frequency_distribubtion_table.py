@@ -82,7 +82,6 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
 
     for cfi in range(len(frequency_distribution_table['Cumulative Frequency (CFi)'])):
         if midvalue <= frequency_distribution_table['Cumulative Frequency (CFi)'][cfi]:
-            print(frequency_distribution_table['Cumulative Frequency (CFi)'][cfi])
             median_class_index = cfi
             break
 
@@ -92,8 +91,6 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
     w = interval_range
 
     median = L + ((midvalue - B)/G) * w
-
-    print('median class index:', median_class_index)
 
     print(tabulate(frequency_distribution_table, headers='keys', tablefmt='grid'))
 
