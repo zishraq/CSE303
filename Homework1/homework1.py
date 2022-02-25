@@ -1,6 +1,7 @@
 import requests
 from tabulate import tabulate
 from utility_codes.frequency_distribubtion_table import generate_frequency_distribution_table
+from utility_codes.central_tendency import CentralTendency
 
 
 url = 'https://hs-consumer-api.espncricinfo.com/v1/pages/series/schedule?lang=en&seriesId=1296684&fixtures=false'
@@ -75,5 +76,23 @@ if __name__ == '__main__':
     generate_frequency_distribution_table(
         dataset=whole_dataset['first_innings_scores'],
         interval_range=10,
-        is_exclusive=False
+        is_exclusive=True
     )
+
+    # Ground based calculations:
+
+    for ground in dataset_by_grounds:
+        print('Calculations of', ground)
+        print()
+
+        data_insertion = CentralTendency(
+            dataset=dataset_by_grounds[ground]['first_innings_scores'],
+            sort_datas=True
+        )
+
+        print('scores:', data_insertion.get_sorted_dataset())
+        print('mean:', data_insertion.get_mean())
+        print('median:', data_insertion.get_median())
+        print('variance:', data_insertion.get_variance())
+        print('standard_deviation:', data_insertion.get_standard_deviation())
+        print()

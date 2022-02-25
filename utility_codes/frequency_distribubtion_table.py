@@ -1,3 +1,5 @@
+import math
+
 from tabulate import tabulate
 
 
@@ -30,7 +32,7 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         'midpoint (x)': [],
         'fi * xi': [],
         'fi * (xi - x-bar)^2': [],
-        'CFi': [],
+        'Cumulative Frequency (CFi)': [],
     }
 
     summation_fi_xi = 0
@@ -39,8 +41,8 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         lower_limit = interval
         upper_limit = interval + interval_range - 1
 
-        frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit if is_exclusive else upper_limit + 1}')
-        # frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit + 1])
+        # frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit if is_exclusive else upper_limit + 1}')
+        frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit + 1])
 
         frequency_count = 0
 
@@ -68,15 +70,52 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         fi_xi_xbar_squared = frequency * ((x - x_mean) ** 2)
         summation_fi_xi_xbar_squared += fi_xi_xbar_squared
         frequency_distribution_table['fi * (xi - x-bar)^2'].append(fi_xi_xbar_squared)
-        frequency_distribution_table['CFi'].append(cumulative_frequency)
+        frequency_distribution_table['Cumulative Frequency (CFi)'].append(cumulative_frequency)
 
+    # variance calculation and standard deviation
     variance = summation_fi_xi_xbar_squared / (n - 1)
+    standard_deviation = math.sqrt(variance)
+
+    # median calculation
+    midvalue = n / 2
+    median_class_index = 0
+
+    for cfi in range(len(frequency_distribution_table['Cumulative Frequency (CFi)'])):
+        if midvalue <= frequency_distribution_table['Cumulative Frequency (CFi)'][cfi]:
+            print(frequency_distribution_table['Cumulative Frequency (CFi)'][cfi])
+            median_class_index = cfi
+            break
+
+    L = frequency_distribution_table['Class Interval'][median_class_index][0]
+    B = frequency_distribution_table['Cumulative Frequency (CFi)'][median_class_index - 1]
+    G = frequency_distribution_table['frequency (f)'][median_class_index]
+    w = interval_range
+
+    median = L + ((midvalue - B)/G) * w
+
+    print('median class index:', median_class_index)
 
     print(tabulate(frequency_distribution_table, headers='keys', tablefmt='grid'))
+
+    # Mean
+    print('Mean calculations: ')
     print('Σ (fi * xi) =', summation_fi_xi)
     print('mean =', x_mean)
+    print()
+
+    # Median
+    print('Median calculations: ')
+    print('L =', L)
+    print('B =', B)
+    print('G =', G)
+    print('w =', w)
+    print('median =', median)
+    print()
+
+    print('Variance and standard deviation: ')
     print('Σ (fi * (xi - x-bar)^2) =', summation_fi_xi_xbar_squared)
     print('variance =', variance)
+    print('standard deviation =', standard_deviation)
     print('-----------------------------------------------------------------------------------------------------------')
     print()
 
