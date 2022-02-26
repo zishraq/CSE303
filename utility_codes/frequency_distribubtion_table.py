@@ -101,7 +101,7 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
     # Mean
     print('Mean calculations: ')
     print('Σ (fi * xi) =', summation_fi_xi)
-    print('mean =', x_mean)
+    print('Mean =', x_mean)
     print()
 
     # Median
@@ -110,13 +110,13 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
     print('B =', B)
     print('G =', G)
     print('w =', w)
-    print('median =', median)
+    print('Median =', median)
     print()
 
-    print('Variance and standard deviation: ')
+    print('Variance and Standard Deviation: ')
     print('Σ (fi * (xi - x̄)^2) =', summation_fi_xi_xbar_squared)
-    print('variance =', variance)
-    print('standard deviation =', standard_deviation)
+    print('Variance =', variance)
+    print('Standard Deviation =', standard_deviation)
     print('-----------------------------------------------------------------------------------------------------------')
     print()
 

@@ -3,7 +3,6 @@ from tabulate import tabulate
 from utility_codes.frequency_distribubtion_table import generate_frequency_distribution_table
 from utility_codes.central_tendency import CentralTendency
 
-
 url = 'https://hs-consumer-api.espncricinfo.com/v1/pages/series/schedule?lang=en&seriesId=1296684&fixtures=false'
 
 payload = {}
@@ -68,7 +67,6 @@ for c, i in enumerate(matches):
             matches,
             whole_dataset
         )
-
 
 if __name__ == '__main__':
     print(tabulate(whole_dataset, headers='keys', tablefmt='grid'))
