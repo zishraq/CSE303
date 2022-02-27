@@ -16,6 +16,9 @@ class CentralTendency:
     def get_size_of_dataset(self):
         return self.n
 
+    def get_range(self):
+        return max(self.dataset) - min(self.dataset)
+
     def get_mean(self):
         print('Σ xi =', sum(self.dataset))
         return sum(self.dataset) / self.n
@@ -97,17 +100,79 @@ class CentralTendency:
     def get_standard_deviation(self):
         return math.sqrt(self.get_variance())
 
+    def get_percentile(self, percent):
+        position = ((percent/100) * self.n) - 1
+
+        actual_position = math.floor(position)
+        additional = position - actual_position
+
+        percentile_value = self.dataset[actual_position] + additional * (self.dataset[actual_position + 1] - self.dataset[actual_position])
+
+        return percentile_value
+
+    def get_q1(self):
+        return self.get_percentile(25)
+
+    def get_q2(self):
+        return self.get_percentile(50)
+
+    def get_q3(self):
+        return self.get_percentile(75)
+
+    def get_iqr(self):
+        return self.get_q3() - self.get_q1()
+
 
 if __name__ == '__main__':
     data_insertion = CentralTendency(
-        dataset=[8, 9, 10, 10, 10, 11, 11, 11, 12, 13],
+        dataset=[8, 9, 10, 10, 10, 11, 11, 11, 12, 13, 15, 16, 16, 17, 20],
         sort_datas=True
     )
 
-    print('Scores =', data_insertion.get_sorted_dataset())
+    print('Datas =', data_insertion.get_sorted_dataset())
+    print()
+
+    print('###### Mean #####')
     print('Mean =', data_insertion.get_mean())
+    print()
+
+    print('###### Median ######')
     print('Median =', data_insertion.get_median())
+    print()
+
+    print('###### Variance ######')
     print('Variance =', data_insertion.get_variance())
+    print()
+
+    print('###### Standard Deviation ######')
     print('Standard Deviation =', data_insertion.get_standard_deviation())
+    print()
+
+    print('###### Mean Absolute Deviation ######')
     print('Mean Absolute Deviation =', data_insertion.get_mean_absolute_deviation())
+    print()
+
+    print('###### Median of Median Absolute Deviation ######')
     print('Median of Median Absolute Deviation =', data_insertion.get_median_of_median_absolute_deviation())
+    print()
+
+    print('###### Percentile ######')
+    print('Percentile =', data_insertion.get_percentile(95))
+    print()
+
+    print('###### Q1 ######')
+    print('Q1 =', data_insertion.get_q1())
+    print()
+
+    print('###### Q2 ######')
+    print('Q2 =', data_insertion.get_q2())
+    print()
+
+    print('###### Q3 ######')
+    print('Q3 =', data_insertion.get_q3())
+    print()
+
+    print('###### IQR ######')
+    print('IQR =', data_insertion.get_iqr())
+    print()
+

@@ -42,7 +42,6 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         lower_limit = interval
         upper_limit = interval + interval_range - 1
 
-        # frequency_distribution_table['Class Interval'].append(f'{lower_limit} - {upper_limit if is_exclusive else upper_limit + 1}')
         frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit + 1])
 
         frequency_count = 0
