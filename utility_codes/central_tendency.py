@@ -175,4 +175,3 @@ if __name__ == '__main__':
     print('###### IQR ######')
     print('IQR =', data_insertion.get_iqr())
     print()
-
