@@ -4,7 +4,9 @@ string = 'Practice Problems to Drill List Comprehension in Your Head.'
 
 vowels = ['a', 'e', 'i', 'o', 'u']
 
-for vowel in vowels:
-    string = string.replace(vowel, '')
+new_string = string
 
-print(string)
+for vowel in vowels:
+    new_string = new_string.replace(vowel, '')
+
+print(new_string)
