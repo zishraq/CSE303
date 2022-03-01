@@ -24,13 +24,32 @@ class CentralTendency:
         return sum(self.dataset) / self.n
 
     def get_trimmed_mean(self, p):
-        for i in range(p):
-            self.dataset.pop(0)
+        dataset_copy = []
+        dataset_copy.extend(self.dataset)
 
         for i in range(p):
-            self.dataset.pop()
+            dataset_copy.pop(0)
 
-        return sum(self.dataset) / len(self.dataset)
+        for i in range(p):
+            dataset_copy.pop()
+
+        return sum(dataset_copy) / len(dataset_copy)
+
+    def get_mode(self):
+        maximum_occurrence = max(self.dataset, key=self.dataset.count)
+
+        maximum_count = self.dataset.count(maximum_occurrence)
+
+        result = {
+            'datas': [],
+            'count': maximum_count
+        }
+
+        for data in self.dataset:
+            if self.dataset.count(data) == maximum_count and data not in result['datas']:
+                result['datas'].append(data)
+
+        return result
 
     def get_median(self):
         if self.n % 2 == 0:
@@ -125,7 +144,7 @@ class CentralTendency:
 
 if __name__ == '__main__':
     data_insertion = CentralTendency(
-        dataset=[8, 9, 10, 10, 10, 11, 11, 11, 12, 13, 15, 16, 16, 17, 20],
+        dataset=[90, 85, 80, 85, 65, 70, 75, 75, 200, 80],
         sort_datas=True
     )
 
@@ -138,6 +157,14 @@ if __name__ == '__main__':
 
     print('###### Median ######')
     print('Median =', data_insertion.get_median())
+    print()
+
+    print('###### Trimmed Mean #####')
+    print('Trimmed Mean =', data_insertion.get_trimmed_mean(1))
+    print()
+
+    print('###### Mode ######')
+    print('Mode =', data_insertion.get_mode())
     print()
 
     print('###### Variance ######')
@@ -157,7 +184,8 @@ if __name__ == '__main__':
     print()
 
     print('###### Percentile ######')
-    print('Percentile =', data_insertion.get_percentile(95))
+    percentile = 95
+    print(f'{percentile}th Percentile =', data_insertion.get_percentile(percentile))
     print()
 
     print('###### Q1 ######')
