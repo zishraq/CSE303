@@ -1,6 +1,6 @@
 import requests
 from tabulate import tabulate
-from utility_codes.frequency_distribubtion_table import generate_frequency_distribution_table
+from utility_codes.frequency_distribution_table import generate_frequency_distribution_table
 from utility_codes.central_tendency import CentralTendency
 
 url = 'https://hs-consumer-api.espncricinfo.com/v1/pages/series/schedule?lang=en&seriesId=1296684&fixtures=false'
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     generate_frequency_distribution_table(
         dataset=whole_dataset['first_innings_scores'],
-        interval_range=10,
+        interval_range=20,
         is_exclusive=True
     )
 
