@@ -86,7 +86,6 @@ class CentralTendency:
 
         return median_of_full_dataset
 
-
     def get_mean_absolute_deviation(self):
         summation_xi_minus_x_bar = 0
 
