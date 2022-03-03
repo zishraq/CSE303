@@ -2,9 +2,10 @@ import math
 
 
 class CentralTendency:
-    def __init__(self, dataset: list, sort_datas: bool = True):
+    def __init__(self, dataset: list, sort_datas: bool = True, weights: list = None):
         self.sort_datas = sort_datas
         self.dataset = sorted(dataset) if self.sort_datas else dataset
+        self.weights = weights
         self.n = len(dataset)
 
     def get_sorted_dataset(self):
@@ -62,25 +63,29 @@ class CentralTendency:
         index = self.n // 2
         return self.dataset[index]
 
-    def get_weighted_mean(self, weights: list):
+    def get_weighted_mean(self):
         for i in range(len(self.dataset)):
-            self.dataset[i] *= weights[i]
+            self.dataset[i] *= self.weights[i]
 
         print(self.dataset)
 
-        return sum(self.dataset) / sum(weights)
+        return sum(self.dataset) / sum(self.weights)
 
-    def get_weighted_median(self, weights: list):
-        weight_half = sum(weights)/2
+    def get_weighted_median(self):
+        full_dataset = []
 
-        weight_sum = 0
-        index = 0
-        for i in range(len(weights)):
-            if weight_sum != weight_half:
-                weight_sum += weights[i]
-                index += 1
+        for data in range(len(self.dataset)):
+            for i in range(self.weights[data]):
+                full_dataset.append(self.dataset[data])
 
-        return (self.dataset[index] + self.dataset[index - 1]) / 2
+        print(full_dataset)
+
+        median_of_full_dataset = CentralTendency(
+            dataset=full_dataset
+        ).get_median()
+
+        return median_of_full_dataset
+
 
     def get_mean_absolute_deviation(self):
         summation_xi_minus_x_bar = 0
