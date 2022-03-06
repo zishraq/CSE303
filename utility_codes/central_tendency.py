@@ -1,12 +1,18 @@
 import math
+from extract_data import get_extracted_data
 
 
 class CentralTendency:
-    def __init__(self, dataset: list, sort_datas: bool = True, weights: list = None):
+    def __init__(self, dataset, sort_datas: bool = True, weights: list = None):
         self.sort_datas = sort_datas
-        self.dataset = sorted(dataset) if self.sort_datas else dataset
+
+        if type(dataset) == str:
+            self.dataset = sorted(get_extracted_data(dataset)) if self.sort_datas else dataset
+        else:
+            self.dataset = sorted(dataset) if self.sort_datas else dataset
+
         self.weights = weights
-        self.n = len(dataset)
+        self.n = len(self.dataset)
 
     def get_sorted_dataset(self):
         if not self.sort_datas:
@@ -29,10 +35,17 @@ class CentralTendency:
         dataset_copy.extend(self.dataset)
 
         for i in range(p):
+            if len(dataset_copy) == 0:
+                return 0
             dataset_copy.pop(0)
 
         for i in range(p):
+            if len(dataset_copy) == 0:
+                return 0
             dataset_copy.pop()
+
+        if len(dataset_copy) == 0:
+            return 0
 
         return sum(dataset_copy) / len(dataset_copy)
 
@@ -147,8 +160,11 @@ class CentralTendency:
 
 
 if __name__ == '__main__':
+    # dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
+    dataset = [13, 2, 1, 5, 2]
+
     data_insertion = CentralTendency(
-        dataset=[90, 85, 80, 85, 65, 70, 75, 75, 200, 80],
+        dataset=dataset,
         sort_datas=True
     )
 
@@ -164,7 +180,9 @@ if __name__ == '__main__':
     print()
 
     print('###### Trimmed Mean #####')
-    print('Trimmed Mean =', data_insertion.get_trimmed_mean(1))
+    p = 3
+    print('p =', p)
+    print('Trimmed Mean =', data_insertion.get_trimmed_mean(p))
     print()
 
     print('###### Mode ######')
