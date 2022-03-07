@@ -17,10 +17,6 @@ def calculate_pearsons_correlation_coefficient(x_data, y_data):
         '(yi - y-mean)^2': [],
     }
 
-    summation_xi_minus_x_mean_multiply_yi_minus_y_mean = 0
-    summation_square_x_mean = 0
-    summation_square_y_mean = 0
-
     x_mean = sum(x_data)/N
     y_mean = sum(y_data)/N
 
@@ -37,16 +33,16 @@ def calculate_pearsons_correlation_coefficient(x_data, y_data):
         table_data['(xi - x-mean)^2'].append(square_x_mean)
         table_data['(yi - y-mean)^2'].append(square_y_mean)
 
-        summation_xi_minus_x_mean_multiply_yi_minus_y_mean += xi_minus_x_mean_multiply_yi_minus_y_mean
-        summation_square_x_mean += ((x_data[i] - x_mean) ** 2)
-        summation_square_y_mean += ((y_data[i] - y_mean) ** 2)
-
+    summation_square_x_mean = sum(table_data['(xi - x-mean)^2'])
     variance_x = summation_square_x_mean / (N - 1)
+
+    summation_square_y_mean = sum(table_data['(yi - y-mean)^2'])
     variance_y = summation_square_y_mean / (N - 1)
 
     sd_x = math.sqrt(variance_x)
     sd_y = math.sqrt(variance_y)
 
+    summation_xi_minus_x_mean_multiply_yi_minus_y_mean = sum(table_data['(xi - x-mean) * (yi - y-mean)'])
     r = summation_xi_minus_x_mean_multiply_yi_minus_y_mean / ((N - 1) * sd_x * sd_y)
 
     print(tabulate(table_data, headers='keys', tablefmt='grid'))

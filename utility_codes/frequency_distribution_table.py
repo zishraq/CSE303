@@ -62,7 +62,12 @@ def complete_table_from_frequency_distribution(class_interval_list: list, freque
 
     interval_range = class_interval_list[0][1] - class_interval_list[0][0]
 
-    calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
+    calculation_and_tabulation(
+        frequency_distribution_table=frequency_distribution_table,
+        interval_range=interval_range,
+        is_exclusive=is_exclusive,
+        n=n
+    )
 
 
 def complete_table_from_class_interval(class_interval_list, dataset):
@@ -86,7 +91,12 @@ def complete_table_from_class_interval(class_interval_list, dataset):
         dataset=dataset
     )
 
-    calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
+    calculation_and_tabulation(
+        frequency_distribution_table=frequency_distribution_table,
+        interval_range=interval_range,
+        is_exclusive=is_exclusive,
+        n=n
+    )
 
 
 def generate_frequency_distribution_table(dataset: list, interval_range: int = 10, is_exclusive: bool = True):
@@ -114,12 +124,15 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
         dataset=dataset
     )
 
-    calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
+    calculation_and_tabulation(
+        frequency_distribution_table=frequency_distribution_table,
+        interval_range=interval_range,
+        is_exclusive=is_exclusive,
+        n=n
+    )
 
 
 def calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n):
-    summation_fi_xi = 0
-
     for interval in range(len(frequency_distribution_table['Class Interval'])):
         lower_limit = frequency_distribution_table['Class Interval'][interval][0]
         upper_limit = frequency_distribution_table['Class Interval'][interval][1]
@@ -131,8 +144,8 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
 
         fi_xi = frequency_count * midpoint
         frequency_distribution_table['fi * xi'].append(fi_xi)
-        summation_fi_xi += fi_xi
 
+    summation_fi_xi = sum(frequency_distribution_table['fi * xi'])
     x_mean = summation_fi_xi / n
 
     cumulative_frequency = 0
