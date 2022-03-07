@@ -91,8 +91,6 @@ class CentralTendency:
             for i in range(self.weights[data]):
                 full_dataset.append(self.dataset[data])
 
-        print(full_dataset)
-
         median_of_full_dataset = CentralTendency(
             dataset=full_dataset
         ).get_median()
@@ -160,8 +158,7 @@ class CentralTendency:
 
 
 if __name__ == '__main__':
-    # dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
-    dataset = [13, 2, 1, 5, 2]
+    dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
 
     data_insertion = CentralTendency(
         dataset=dataset,

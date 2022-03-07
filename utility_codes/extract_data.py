@@ -2,7 +2,10 @@ import re
 
 
 def get_extracted_data(raw_dataset):
-    clean_dataset = re.split('\s+', raw_dataset)
+    if ',' in raw_dataset:
+        clean_dataset = re.split(',\s*', raw_dataset)
+    else:
+        clean_dataset = re.split('\s+', raw_dataset)
 
     for i in range(len(clean_dataset)):
         clean_dataset[i] = float(clean_dataset[i])
