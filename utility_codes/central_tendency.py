@@ -26,8 +26,9 @@ class CentralTendency:
     def get_range(self):
         return max(self.dataset) - min(self.dataset)
 
-    def get_mean(self):
-        print('Σ xi =', sum(self.dataset))
+    def get_mean(self, should_print=True):
+        if should_print:
+            print('Σ xi =', sum(self.dataset))
         return sum(self.dataset) / self.n
 
     def get_trimmed_mean(self, p):
@@ -65,22 +66,24 @@ class CentralTendency:
 
         return result
 
-    def get_median(self):
+    def get_median(self, should_print=True):
         if self.n % 2 == 0:
             index2 = self.n // 2
             index1 = index2 - 1
 
-            print(f'{self.dataset[index1]}, {self.dataset[index2]}')
+            if should_print:
+                print(f'{self.dataset[index1]}, {self.dataset[index2]}')
             return (self.dataset[index1] + self.dataset[index2]) / 2
 
         index = self.n // 2
         return self.dataset[index]
 
-    def get_weighted_mean(self):
+    def get_weighted_mean(self, should_print=True):
         for i in range(len(self.dataset)):
             self.dataset[i] *= self.weights[i]
 
-        print(self.dataset)
+        if should_print:
+            print(self.dataset)
 
         return sum(self.dataset) / sum(self.weights)
 
@@ -121,18 +124,19 @@ class CentralTendency:
 
         return median_of_median_absolute_deviation
 
-    def get_variance(self):
+    def get_variance(self, should_print=True):
         summation_xi_minus_x_bar_squared = 0
         mean = self.get_mean()
 
         for i in range(len(self.dataset)):
             summation_xi_minus_x_bar_squared += ((self.dataset[i] - mean) ** 2)
 
-        print('Σ (fi * (xi - x̄)^2) =', summation_xi_minus_x_bar_squared)
+        if should_print:
+            print('Σ (fi * (xi - x̄)^2) =', summation_xi_minus_x_bar_squared)
         return summation_xi_minus_x_bar_squared / (self.n - 1)
 
     def get_standard_deviation(self):
-        return math.sqrt(self.get_variance())
+        return math.sqrt(self.get_variance(should_print=False))
 
     def get_percentile(self, percent):
         position = ((percent/100) * self.n) - 1
@@ -161,6 +165,28 @@ class CentralTendency:
 
     def get_lower_extreme(self):
         return self.get_q1() - self.get_iqr() * 1.5
+
+    def get_skewness(self, should_print=True):
+        summation_xi_minus_x_bar_cubed = 0
+        mean = self.get_mean()
+
+        for i in range(len(self.dataset)):
+            summation_xi_minus_x_bar_cubed += ((self.dataset[i] - mean) ** 3)
+
+        if should_print:
+            print('Σ (fi * (xi - x̄)^3) =', summation_xi_minus_x_bar_cubed)
+        return summation_xi_minus_x_bar_cubed / ((self.n - 1) * (self.get_standard_deviation() ** 3))
+
+    def get_kurtosis(self, should_print=True):
+        summation_xi_minus_x_bar_squared = 0
+        mean = self.get_mean()
+
+        for i in range(len(self.dataset)):
+            summation_xi_minus_x_bar_squared += ((self.dataset[i] - mean) ** 4)
+
+        if should_print:
+            print('Σ (fi * (xi - x̄)^4) =', summation_xi_minus_x_bar_squared)
+        return summation_xi_minus_x_bar_squared / ((self.n - 1) * (self.get_standard_deviation() ** 4))
 
 
 if __name__ == '__main__':
@@ -235,4 +261,12 @@ if __name__ == '__main__':
 
     print('###### Lower Extreme ######')
     print('Lower Extreme =', data_insertion.get_lower_extreme())
+    print()
+
+    print('###### Skewness ######')
+    print('Skewness =', data_insertion.get_skewness())
+    print()
+
+    print('###### Kurtosis ######')
+    print('Kurtosis =', data_insertion.get_kurtosis())
     print()

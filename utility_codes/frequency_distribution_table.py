@@ -10,6 +10,8 @@ frequency_distribution_table_template = {
     'midpoint (x)': [],
     'fi * xi': [],
     'fi * (xi - x̄)^2': [],
+    'fi * (xi - x̄)^3': [],
+    'fi * (xi - x̄)^4': [],
     'CFi': [],
     'is_median_class': []
 }
@@ -134,19 +136,24 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
     x_mean = summation_fi_xi / n
 
     cumulative_frequency = 0
-    summation_fi_xi_xbar_squared = 0
 
     for interval in range(len(frequency_distribution_table['Class Interval'])):
         frequency = frequency_distribution_table['frequency (f)'][interval]
         x = frequency_distribution_table['midpoint (x)'][interval]
         cumulative_frequency += frequency
+
         fi_xi_xbar_squared = frequency * ((x - x_mean) ** 2)
-        summation_fi_xi_xbar_squared += fi_xi_xbar_squared
+        fi_xi_xbar_cubed = frequency * ((x - x_mean) ** 3)
+        fi_xi_xbar_to_4 = frequency * ((x - x_mean) ** 4)
+
         frequency_distribution_table['fi * (xi - x̄)^2'].append(fi_xi_xbar_squared)
+        frequency_distribution_table['fi * (xi - x̄)^3'].append(fi_xi_xbar_cubed)
+        frequency_distribution_table['fi * (xi - x̄)^4'].append(fi_xi_xbar_to_4)
         frequency_distribution_table['CFi'].append(cumulative_frequency)
         frequency_distribution_table['is_median_class'].append(False)
 
     # variance calculation and standard deviation
+    summation_fi_xi_xbar_squared = sum(frequency_distribution_table['fi * (xi - x̄)^2'])
     variance = summation_fi_xi_xbar_squared / (n - 1)
     standard_deviation = math.sqrt(variance)
 
@@ -167,6 +174,14 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
     w = interval_range + 1 if is_exclusive else interval_range
 
     median = L + ((midvalue - B) / G) * w
+
+    # skewness calculation
+    summation_fi_xi_xbar_cubed = sum(frequency_distribution_table['fi * (xi - x̄)^3'])
+    skewness = summation_fi_xi_xbar_cubed / ((n - 1) * (standard_deviation ** 3))
+
+    # kurtosis calculation
+    summation_fi_xi_xbar_to_4 = sum(frequency_distribution_table['fi * (xi - x̄)^4'])
+    kurtosis = summation_fi_xi_xbar_to_4 / ((n - 1) * (standard_deviation ** 4))
 
     print(tabulate(frequency_distribution_table, headers='keys', tablefmt='grid'))
 
@@ -189,6 +204,18 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
     print('Σ (fi * (xi - x̄)^2) =', summation_fi_xi_xbar_squared)
     print('Variance =', variance)
     print('Standard Deviation =', standard_deviation)
+    print()
+
+    print('Skewness: ')
+    print('Σ (fi * (xi - x̄)^3) =', summation_fi_xi_xbar_cubed)
+    print('Skewness =', skewness)
+    print()
+
+    print('Kurtosis: ')
+    print('Σ (fi * (xi - x̄)^4) =', summation_fi_xi_xbar_to_4)
+    print('Kurtosis =', kurtosis)
+    print()
+
     print('-----------------------------------------------------------------------------------------------------------')
     print()
 
