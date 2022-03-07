@@ -156,12 +156,18 @@ class CentralTendency:
     def get_iqr(self):
         return self.get_q3() - self.get_q1()
 
+    def get_upper_extreme(self):
+        return self.get_q3() + self.get_iqr() * 1.5
+
+    def get_lower_extreme(self):
+        return self.get_q1() - self.get_iqr() * 1.5
+
 
 if __name__ == '__main__':
-    dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
+    given_dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
 
     data_insertion = CentralTendency(
-        dataset=dataset,
+        dataset=given_dataset,
         sort_datas=True
     )
 
@@ -221,4 +227,12 @@ if __name__ == '__main__':
 
     print('###### IQR ######')
     print('IQR =', data_insertion.get_iqr())
+    print()
+
+    print('###### Upper Extreme ######')
+    print('Upper Extreme =', data_insertion.get_upper_extreme())
+    print()
+
+    print('###### Lower Extreme ######')
+    print('Lower Extreme =', data_insertion.get_lower_extreme())
     print()
