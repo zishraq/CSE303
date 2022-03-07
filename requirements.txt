@@ -2,3 +2,4 @@ tabulate
 requests
 numpy
 pandas
+scipy

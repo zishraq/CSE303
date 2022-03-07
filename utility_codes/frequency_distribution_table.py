@@ -1,6 +1,18 @@
 import math
+import copy
 
 from tabulate import tabulate
+from extract_data import get_extracted_data
+
+frequency_distribution_table_template = {
+    'Class Interval': [],
+    'frequency (f)': [],
+    'midpoint (x)': [],
+    'fi * xi': [],
+    'fi * (xi - x̄)^2': [],
+    'CFi': [],
+    'is_median_class': []
+}
 
 
 def get_highest_limit(min_data, max_data, interval):
@@ -16,17 +28,26 @@ def get_highest_limit(min_data, max_data, interval):
     }
 
 
-def generate_full_table_from_frequency_distribution(class_interval_list: list, frequency_list: list):
-    frequency_distribution_table = {
-        'Class Interval': [],
-        'frequency (f)': [],
-        'midpoint (x)': [],
-        'fi * xi': [],
-        'fi * (xi - x̄)^2': [],
-        'CFi': [],
-        'is_median_class': []
-    }
+def get_frequency_list(lowest_limit, highest_limit, interval_range, dataset):
+    frequency_list = []
 
+    for interval in range(lowest_limit, highest_limit, interval_range):
+        lower_limit = interval
+        upper_limit = interval + interval_range - 1
+
+        frequency_count = 0
+
+        for data in dataset:
+            if lower_limit <= data <= upper_limit:
+                frequency_count += 1
+
+        frequency_list.append(frequency_count)
+
+    return frequency_list
+
+
+def complete_table_from_frequency_distribution(class_interval_list: list, frequency_list: list):
+    frequency_distribution_table = copy.deepcopy(frequency_distribution_table_template)
     n = sum(frequency_list)
     frequency_distribution_table['Class Interval'] = class_interval_list
     frequency_distribution_table['frequency (f)'] = frequency_list
@@ -42,6 +63,30 @@ def generate_full_table_from_frequency_distribution(class_interval_list: list, f
     calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
 
 
+def complete_table_from_class_interval(class_interval_list, dataset):
+    frequency_distribution_table = copy.deepcopy(frequency_distribution_table_template)
+
+    n = len(dataset)
+    frequency_distribution_table['Class Interval'] = class_interval_list
+
+    if class_interval_list[0][1] == class_interval_list[1][0]:
+        is_exclusive = False
+
+    else:
+        is_exclusive = True
+
+    interval_range = class_interval_list[0][1] - class_interval_list[0][0]
+
+    frequency_distribution_table['frequency (f)'] = get_frequency_list(
+        lowest_limit=class_interval_list[0][0],
+        highest_limit=class_interval_list[-1][-1],
+        interval_range=interval_range,
+        dataset=dataset
+    )
+
+    calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
+
+
 def generate_frequency_distribution_table(dataset: list, interval_range: int = 10, is_exclusive: bool = True):
     n = len(dataset)
     lowest_data = min(dataset)
@@ -52,30 +97,20 @@ def generate_frequency_distribution_table(dataset: list, interval_range: int = 1
     lowest_limit = get_limits['lower_limit']
     highest_limit = get_limits['upper_limit']
 
-    frequency_distribution_table = {
-        'Class Interval': [],
-        'frequency (f)': [],
-        'midpoint (x)': [],
-        'fi * xi': [],
-        'fi * (xi - x̄)^2': [],
-        'CFi': [],
-        'is_median_class': []
-    }
+    frequency_distribution_table = copy.deepcopy(frequency_distribution_table_template)
 
     for interval in range(lowest_limit, highest_limit, interval_range):
         lower_limit = interval
         upper_limit = interval + interval_range - 1
 
-        frequency_distribution_table['Class Interval'].append(
-            [lower_limit, upper_limit if is_exclusive else upper_limit + 1])
+        frequency_distribution_table['Class Interval'].append([lower_limit, upper_limit if is_exclusive else upper_limit + 1])
 
-        frequency_count = 0
-
-        for data in dataset:
-            if lower_limit <= data <= upper_limit:
-                frequency_count += 1
-
-        frequency_distribution_table['frequency (f)'].append(frequency_count)
+    frequency_distribution_table['frequency (f)'] = get_frequency_list(
+        lowest_limit=lowest_limit,
+        highest_limit=highest_limit,
+        interval_range=interval_range,
+        dataset=dataset
+    )
 
     calculation_and_tabulation(frequency_distribution_table, interval_range, is_exclusive, n)
 
@@ -159,15 +194,35 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
 
 
 if __name__ == '__main__':
-    # dataset = []
-    # generate_frequency_distribution_table(dataset)
+    given_dataset = get_extracted_data(
+        raw_dataset='''21 43 21 25 26 28 25 29 30 33
+26 38 44 37 27 32 33 28 41 28
+23 39 23 35 25''',
+        type_cast_to=int
+    )
 
-    # generate_full_table_from_frequency_distribution(
+    complete_table_from_class_interval(
+        class_interval_list=[[20, 25], [25, 30], [30, 35], [35, 40], [40, 45]],
+        dataset=given_dataset
+    )
+
+    # generate_frequency_distribution_table(
+    #     dataset=given_dataset,
+    #     interval_range=5,
+    #     is_exclusive=False
+    # )
+
+    # complete_table_from_frequency_distribution(
     #     class_interval_list=[[20, 25], [25, 30], [30, 35], [35, 40], [40, 45]],
     #     frequency_list=[4, 10, 4, 4, 3]
     # )
 
-    generate_full_table_from_frequency_distribution(
-        class_interval_list=[[51, 55], [56, 60], [61, 65], [66, 70]],
-        frequency_list=[2, 7, 8, 4]
-    )
+    # complete_table_from_frequency_distribution(
+    #     class_interval_list=[[51, 55], [56, 60], [61, 65], [66, 70]],
+    #     frequency_list=[2, 7, 8, 4]
+    # )
+
+    # complete_table_from_class_interval(
+    #     class_interval_list=[[31, 39], [39, 47], [47, 55], [55, 63], [63, 71]],
+    #     dataset=[39, 43, 47, 50, 53, 53, 55, 58, 58, 61, 61, 62, 63, 63, 67]
+    # )

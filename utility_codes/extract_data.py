@@ -1,14 +1,14 @@
 import re
 
 
-def get_extracted_data(raw_dataset):
+def get_extracted_data(raw_dataset, type_cast_to=float):
     if ',' in raw_dataset:
         clean_dataset = re.split(',\s*', raw_dataset)
     else:
         clean_dataset = re.split('\s+', raw_dataset)
 
     for i in range(len(clean_dataset)):
-        clean_dataset[i] = float(clean_dataset[i])
+        clean_dataset[i] = type_cast_to(clean_dataset[i])
 
     return clean_dataset
 
