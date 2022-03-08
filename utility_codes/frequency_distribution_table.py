@@ -196,16 +196,30 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
     summation_fi_xi_xbar_to_4 = sum(frequency_distribution_table['fi * (xi - x̄)^4'])
     kurtosis = summation_fi_xi_xbar_to_4 / ((n - 1) * (standard_deviation ** 4))
 
+    frequency_distribution_table['Class Interval'].append('-')
+    frequency_distribution_table['frequency (f)'].append(f'= {n}')
+    frequency_distribution_table['midpoint (x)'].append('-')
+    frequency_distribution_table['fi * xi'].append(f'= {summation_fi_xi}')
+    frequency_distribution_table['fi * (xi - x̄)^2'].append(f'= {summation_fi_xi_xbar_squared}')
+    frequency_distribution_table['fi * (xi - x̄)^3'].append(f'= {summation_fi_xi_xbar_cubed}')
+    frequency_distribution_table['fi * (xi - x̄)^4'].append(f'= {summation_fi_xi_xbar_to_4}')
+    frequency_distribution_table['CFi'].append(f'= {n}')
+    frequency_distribution_table['is_median_class'].append(f'-')
+
+
     print(tabulate(frequency_distribution_table, headers='keys', tablefmt='grid'))
 
     # Mean
     print('Mean calculations: ')
+    print('Mean, x̄ = (Σ (fi * xi))/n')
+    print('n =', n)
     print('Σ (fi * xi) =', summation_fi_xi)
     print('Mean =', x_mean)
     print()
 
     # Median
     print('Median calculations: ')
+    print('Estimated Median = L + (((n/2) - B) / G) * w')
     print('L =', L)
     print('B =', B)
     print('G =', G)
@@ -213,19 +227,30 @@ def calculation_and_tabulation(frequency_distribution_table, interval_range, is_
     print('Median =', median)
     print()
 
+    # Variance and Standard Deviation
     print('Variance and Standard Deviation: ')
+    print('Variance = (Σ (fi * (xi - x̄)^2)) / (n - 1)')
+    print('n - 1 =', n - 1)
     print('Σ (fi * (xi - x̄)^2) =', summation_fi_xi_xbar_squared)
     print('Variance =', variance)
-    print('Standard Deviation =', standard_deviation)
+    print('Standard Deviation, s =', standard_deviation)
     print()
 
+    # Skewness
     print('Skewness: ')
+    print('Skewness = (Σ (fi * (xi - x̄)^3)) / ((n - 1) * s^3)')
     print('Σ (fi * (xi - x̄)^3) =', summation_fi_xi_xbar_cubed)
+    print('n - 1 =', n - 1)
+    print('s =', standard_deviation)
     print('Skewness =', skewness)
     print()
 
+    # Kurtosis
     print('Kurtosis: ')
+    print('Kurtosis = (Σ (fi * (xi - x̄)^4)) / ((n - 1) * s^4)')
     print('Σ (fi * (xi - x̄)^4) =', summation_fi_xi_xbar_to_4)
+    print('n - 1 =', n - 1)
+    print('s =', standard_deviation)
     print('Kurtosis =', kurtosis)
     print()
 

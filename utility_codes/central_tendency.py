@@ -20,9 +20,6 @@ class CentralTendency:
 
         return self.dataset
 
-    def get_size_of_dataset(self):
-        return self.n
-
     def get_range(self):
         return max(self.dataset) - min(self.dataset)
 
@@ -166,6 +163,12 @@ class CentralTendency:
     def get_lower_extreme(self):
         return self.get_q1() - self.get_iqr() * 1.5
 
+    def get_upper_whisker(self):
+        return min(self.get_upper_extreme(), max(self.dataset))
+
+    def get_lower_whisker(self):
+        return max(self.get_lower_extreme(), min(self.dataset))
+
     def get_skewness(self, should_print=True):
         summation_xi_minus_x_bar_cubed = 0
         mean = self.get_mean()
@@ -178,19 +181,21 @@ class CentralTendency:
         return summation_xi_minus_x_bar_cubed / ((self.n - 1) * (self.get_standard_deviation() ** 3))
 
     def get_kurtosis(self, should_print=True):
-        summation_xi_minus_x_bar_squared = 0
+        summation_xi_minus_x_bar_to_4 = 0
         mean = self.get_mean()
 
         for i in range(len(self.dataset)):
-            summation_xi_minus_x_bar_squared += ((self.dataset[i] - mean) ** 4)
+            summation_xi_minus_x_bar_to_4 += ((self.dataset[i] - mean) ** 4)
 
         if should_print:
-            print('Σ (fi * (xi - x̄)^4) =', summation_xi_minus_x_bar_squared)
-        return summation_xi_minus_x_bar_squared / ((self.n - 1) * (self.get_standard_deviation() ** 4))
+            print('Σ (fi * (xi - x̄)^4) =', summation_xi_minus_x_bar_to_4)
+        return summation_xi_minus_x_bar_to_4 / ((self.n - 1) * (self.get_standard_deviation() ** 4))
 
 
 if __name__ == '__main__':
-    given_dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
+    # given_dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
+    # given_dataset = [3.0, 3.2, 3.5, 5.0, 5.3, 5.5, 5.7, 5.8, 5.8, 6.0, 6.0, 6.1, 6.2, 6.3, 6.5, 6.6, 6.8, 7.0, 7.2, 7.5]
+    given_dataset = '''60 75 80 85 90 10 65 70 65 80'''
 
     data_insertion = CentralTendency(
         dataset=given_dataset,
@@ -198,6 +203,7 @@ if __name__ == '__main__':
     )
 
     print('Datas =', data_insertion.get_sorted_dataset())
+    print('n =', data_insertion.n)
     print()
 
     print('###### Mean #####')
@@ -236,31 +242,46 @@ if __name__ == '__main__':
 
     print('###### Percentile ######')
     percentile = 95
+    print(f'Q1 = {percentile} % * {data_insertion.n} = {(percentile / 100) * data_insertion.n}th value')
     print(f'{percentile}th Percentile =', data_insertion.get_percentile(percentile))
     print()
 
     print('###### Q1 ######')
+    print(f'Q1 = 25 % * {data_insertion.n} = {(25/100) * data_insertion.n}th value')
     print('Q1 =', data_insertion.get_q1())
     print()
 
     print('###### Q2 ######')
+    print(f'Q2 = 50 % * {data_insertion.n} = {(50 / 100) * data_insertion.n}th value')
     print('Q2 =', data_insertion.get_q2())
     print()
 
     print('###### Q3 ######')
+    print(f'Q3 = 75 % * {data_insertion.n} = {(75 / 100) * data_insertion.n}th value')
     print('Q3 =', data_insertion.get_q3())
     print()
 
     print('###### IQR ######')
+    print('IQR = Q3 - Q1')
     print('IQR =', data_insertion.get_iqr())
     print()
 
     print('###### Upper Extreme ######')
+    print('Upper Extreme = Q1 + IQR * 1.5')
     print('Upper Extreme =', data_insertion.get_upper_extreme())
     print()
 
     print('###### Lower Extreme ######')
+    print('Lower Extreme = Q3 - IQR * 1.5')
     print('Lower Extreme =', data_insertion.get_lower_extreme())
+    print()
+
+    print('###### Upper Whisker ######')
+    print('Upper Whisker =', data_insertion.get_upper_whisker())
+    print()
+
+    print('###### Lower Whisker ######')
+    print('Lower Whisker =', data_insertion.get_lower_whisker())
     print()
 
     print('###### Skewness ######')
