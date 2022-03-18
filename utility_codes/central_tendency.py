@@ -121,19 +121,22 @@ class CentralTendency:
 
         return median_of_median_absolute_deviation
 
-    def get_variance(self, should_print=True):
+    def get_variance(self, is_sample=True, should_print=True):
         summation_xi_minus_x_bar_squared = 0
         mean = self.get_mean()
+
+        if is_sample:
+            self.n -= 1
 
         for i in range(len(self.dataset)):
             summation_xi_minus_x_bar_squared += ((self.dataset[i] - mean) ** 2)
 
         if should_print:
-            print('Σ (fi * (xi - x̄)^2) =', summation_xi_minus_x_bar_squared)
-        return summation_xi_minus_x_bar_squared / (self.n - 1)
+            print('Σ ((xi - x̄)^2) =', summation_xi_minus_x_bar_squared)
+        return summation_xi_minus_x_bar_squared / self.n
 
-    def get_standard_deviation(self):
-        return math.sqrt(self.get_variance(should_print=False))
+    def get_standard_deviation(self, is_sample=True):
+        return math.sqrt(self.get_variance(is_sample=is_sample, should_print=False))
 
     def get_percentile(self, percent):
         position = ((percent/100) * self.n) - 1
